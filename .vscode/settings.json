@@ -1,4 +1,6 @@
 {
     "code-runner.defaultLanguage": "",
-    "code-runner.runInTerminal": true
+    "code-runner.runInTerminal": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
 }

@@ -1,9 +1,3 @@
-# import calc_load
-# import os
-
-# path_name = os.path.basename("example_csv/loads.csv")
-# calc_load.calc_load_and_gen(path_name)
-# print("end")
 import pypsa
 import requests
 import json
