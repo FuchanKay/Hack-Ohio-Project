@@ -22,9 +22,9 @@ def get_scale(csv_name):
     
     return y
     
-def calc_load(csv_name, line_name, hour):
+def calc_load(line_name, hour):
     network = pypsa.Network()
-    network.import_from_csv_folder(csv_name)
+    network.import_from_csv_folder("csv")
     info = network.pf() 
     
     line_index = int(line_name[1]) 
@@ -32,7 +32,7 @@ def calc_load(csv_name, line_name, hour):
     load = load_array[line_index]
     #print(f"Load on {line_name}: {load}")
     
-    scale = get_scale(csv_name)[hour]
+    scale = get_scale("csv")[hour]
     #print(f"Scaling load by {scale}")
     #print(load * scale)
     

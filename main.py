@@ -16,7 +16,7 @@ def get_current_temp_and_wind_speed(api_key, latitude, longitude):
     
     temp_and_wind = {
         "wind_speed": wind_fps,
-        #temperature in celcius
+        #temperature in celsius
         "temp": table["current"]["temp_c"],
         #date and time of when it was last updated
         "last_updated": table["current"]["last_updated"]
@@ -28,6 +28,8 @@ api_key = "746b28d32b274a39bac190105252510"
 latitude, longitude = 40.7127281,-74.0060152
 
 temp_and_wind = get_current_temp_and_wind_speed(api_key, latitude, longitude)
+
+
 
 print(temp_and_wind["wind_speed"], temp_and_wind["temp"])
 map.generate_map()
