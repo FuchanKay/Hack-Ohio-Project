@@ -1,13 +1,7 @@
-import os
-print("Current working directory:", os.getcwd())
-
-import pandas as pd
-import  io
+import matplotlib.pyplot as plt
 import pypsa
 
-# Linear powerflow .lpf() is an approximation of full powerflow. It may make be useful if have convergence issues
 USE_LPF = False
-
 
 def check_pf(info):
     converged = info.converged.any().any()
@@ -15,23 +9,22 @@ def check_pf(info):
     print(f"Sim converged: {converged}")
     print(f"Max error: {max_error:.2e}")
 
-    if ~converged:
-        raise Exception("Sim didn't convert - results are garbage. Change to lpf()")
-    
+    if not converged:
+        raise Exception("Simulation didn’t converge — try .lpf() instead")
+
+# Import the network
 network = pypsa.Network()
-network.import_from_csv_folder('/example_csv/buses.csv')
-if USE_LPF:
-    network.lpf() 
-else:
-    info = network.pf() # Full powerflow
-    check_pf(info)
-    
-network = pypsa.Network()
-network.import_from_csv_folder('/example_csv/buses.csv')
+network.import_from_csv_folder('example_csv')
+
+# Run power flow
 if USE_LPF:
     network.lpf()
 else:
-    info = network.pf() # Full powerflow
+    info = network.pf()  # Full nonlinear AC power flow
     check_pf(info)
-    
-network.plot.map(bus_sizes=5e-5,)
+
+# ✅ Plot the network
+plt.figure(figsize=(8, 6))
+network.plot(bus_sizes=5e-5, title="Network")
+plt.show()  
+
