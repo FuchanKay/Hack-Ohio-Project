@@ -4,7 +4,7 @@ import numpy as np
 def get_scale(csv_name):
     
     network = pypsa.Network()
-    network.import_from_csv_folder(csv_name)
+    network.import_from_csv_folder("csv")
     info = network.pf()
     
     pload_total = network.loads['p_set'].sum().round(0)
