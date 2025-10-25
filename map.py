@@ -2,24 +2,25 @@ import pypsa
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from shapely.geometry import Point, LineString
+from shapely.affinity import translate
 import contextily as ctx
 
-def generate_map():
-    network = pypsa.Network("csv")
+
+network = pypsa.Network("example_csv")
 
     buses = network.buses.copy()
     buses["geometry"] = [Point(xy) for xy in zip(buses["x"], buses["y"])]
     gdf_buses = gpd.GeoDataFrame(buses, geometry="geometry", crs="EPSG:4326")
 
-    lines = network.lines.copy()
-    lines["geometry"] = [
-        LineString([
-            (network.buses.at[bus0, "x"], network.buses.at[bus0, "y"]),
-            (network.buses.at[bus1, "x"], network.buses.at[bus1, "y"])
-        ])
-        for bus0, bus1 in zip(lines["bus0"], lines["bus1"])
-    ]
-    gdf_lines = gpd.GeoDataFrame(lines, geometry="geometry", crs="EPSG:4326")
+lines = network.lines.copy()
+lines["geometry"] = [
+    LineString([
+        (network.buses.at[bus0, "x"], network.buses.at[bus0, "y"]),
+        (network.buses.at[bus1, "x"], network.buses.at[bus1, "y"])
+    ])
+    for bus0, bus1 in zip(lines["bus0"], lines["bus1"])
+]
+gdf_lines = gpd.GeoDataFrame(lines, geometry="geometry", crs="EPSG:4326")
 
     # project to Web Mercator (required by contextily)
     gdf_buses = gdf_buses.to_crs(epsg=3857)
@@ -30,9 +31,9 @@ def generate_map():
     pad_meters = 10000  # <-- increase to "zoom out" more (10 km here)
     minx -= pad_meters; miny -= pad_meters; maxx += pad_meters; maxy += pad_meters
 
-    fig, ax = plt.subplots(figsize=(11, 9))
-    gdf_lines.plot(ax=ax, color="dimgray", linewidth=1.2, zorder=2)
-    gdf_buses.plot(ax=ax, color="crimson", markersize=35, zorder=3)
+fig, ax = plt.subplots(figsize=(11, 9))
+gdf_lines.plot(ax=ax, color="dimgray", linewidth=1.2, zorder=2)
+gdf_buses.plot(ax=ax, color="crimson", markersize=35, zorder=3)
 
     # Add basemap (Esri WorldTopoMap)
     ctx.add_basemap(ax, source=ctx.providers.Esri.WorldTopoMap, crs='EPSG:3857')
