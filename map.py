@@ -7,7 +7,7 @@ def generate_map():
     import contextily as ctx
     import numpy as np
 
-    network = pypsa.Network("example_csv")
+    network = pypsa.Network("csv")
 
     buses = network.buses.copy()
     buses["geometry"] = [Point(xy) for xy in zip(buses["x"], buses["y"])]
