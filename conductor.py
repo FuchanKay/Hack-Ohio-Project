@@ -1,11 +1,3 @@
-"""Python implementation for Calcualting the Current-Temperature Relationship
-of Bare Overhead Conductors.
-
-References
---------------
-[1] ieee738-2006 spec
-     
-"""
 import math as m
 from datetime import datetime
 import logging
