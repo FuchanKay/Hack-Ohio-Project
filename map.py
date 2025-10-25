@@ -19,7 +19,7 @@ def check_pf(info):
         raise Exception("Sim didn't convert - results are garbage. Change to lpf()")
     
 network = pypsa.Network()
-network.import_from_csv_folder('/example_csv')
+network.import_from_csv_folder('/example_csv/buses.csv')
 if USE_LPF:
     network.lpf() 
 else:
@@ -27,7 +27,7 @@ else:
     check_pf(info)
     
 network = pypsa.Network()
-network.import_from_csv_folder('/example_csv')
+network.import_from_csv_folder('/example_csv/buses.csv')
 if USE_LPF:
     network.lpf()
 else:
